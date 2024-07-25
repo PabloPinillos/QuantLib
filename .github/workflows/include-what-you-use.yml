@@ -7,11 +7,17 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Setup
+      run: |
+        sudo rm /etc/apt/sources.list.d/microsoft-prod.list
+        sudo apt update
+        sudo apt install -y libboost-dev ninja-build
+    - uses: actions/checkout@v4
     - name: Generate compile_commands.json
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+        cmake .. -DBOOST_ROOT=/usr -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -GNinja -DCMAKE_BUILD_TYPE=Release
     - name: List compile_commands.json
       run:  ls build/compile_commands.json
     - name: Include What You Use
