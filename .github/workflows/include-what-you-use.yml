@@ -11,7 +11,7 @@ jobs:
       run: |
         mkdir build
         cd build
-        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -GNinja -DCMAKE_BUILD_TYPE=Release
+        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
     - name: List compile_commands.json
       run:  ls build/compile_commands.json
     - name: Include What You Use
