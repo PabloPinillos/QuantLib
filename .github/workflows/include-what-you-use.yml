@@ -1,0 +1,22 @@
+# Check header hygiene
+name: include-what-you-use
+on: [push, pull_request]
+jobs:
+  include-what-you-use:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Generate compile_commands.json
+      run: |
+        mkdir build
+        cd build
+        cmake .. -DCMAKE_EXPORT_COMPILE_COMMANDS=1 -GNinja -DCMAKE_BUILD_TYPE=Release
+    - name: List compile_commands.json
+      run:  ls build/compile_commands.json
+    - name: Include What You Use
+      uses: EmilGedda/include-what-you-use-action@v1.0
+      with:
+        compilation-database-path: 'build'
+        # output-format: 'iwyu' or 'clang'
+        no-error: 'false'
